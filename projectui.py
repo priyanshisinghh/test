@@ -1,24 +1,62 @@
 import streamlit as st
 import pandas as pd
 
-def set_welcome_background():
+
+# Set page config
+st.set_page_config(
+    page_title="Stroke Risk Assessment",
+    page_icon="🩺",
+    layout="wide"
+)
+
+# Inject Custom CSS
+def inject_custom_css():
     st.markdown(
         """
         <style>
+        /* Global styles */
         body {
-            background-image: url('https://www.google.com/imgres?q=white%20color%20image&imgurl=https%3A%2F%2Fimg.freepik.com%2Ffree-photo%2Fwhite-blank-background-texture-design-element_53876-132773.jpg%3Fsemt%3Dais_hybrid&imgrefurl=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fwhite-color&docid=NCgrDC1_33DsKM&tbnid=iOtdyQ-U8SsqnM&vet=12ahUKEwjOqJ2XlZyKAxXRCTQIHVaKOYYQM3oECDcQAA..i&w=626&h=417&hcb=2&ved=2ahUKEwjOqJ2XlZyKAxXRCTQIHVaKOYYQM3oECDcQAA'); /* Replace with your image URL */
+            background-color: #f9f9f9;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Welcome page background */
+        .welcome-page {
+            background-image: url('https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg'); /* Replace with your image URL */
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
+            color: white;
+        }
+
+        /* Custom heading colors */
+        h1, h2, h3 {
+            color: #4CAF50; /* Green color for headings */
+        }
+
+        /* Custom button styling */
+        .stButton > button {
+            font-size: 18px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+        }
+
+        .stButton > button:hover {
+            background-color: #0056b3;
         }
         </style>
         """,
-        unsafe_allow_html=True,
+        unsafe_allow_html=True
     )
 
 # welcome page
 def welcome_page():
-    set_welcome_background
+    st.markdown('<div class="welcome-page">', unsafe_allow_html=True)
     st.title(":blue[Stroke Risk Assessment and Personalized Health Plan]")
     st.write("""
     Understanding your stroke risk is vital to taking control of your health. 
