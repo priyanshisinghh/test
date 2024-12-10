@@ -121,6 +121,8 @@ def risk_analysis_page():
     user_data = st.session_state.user_data
     
     # Preprocess user input
+    user_data = user_data.reindex(columns=['age', 'avg_glucose_level', 'bmi', 'gender', 'hypertension', 'heart_disease', 'work_type', 'Residence_type', 'smoking_status'])
+    user_data = user_data.fillna(0)  # Fill NaN values with 0 or other suitable default
     user_transformed = preprocessor.transform(user_data)
     user_transformed_df = pd.DataFrame(user_transformed.toarray() if hasattr(user_transformed, 'toarray') else user_transformed)
     
