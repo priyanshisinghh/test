@@ -6,7 +6,7 @@ import pandas as pd
 st.set_page_config(
     page_title="Stroke Risk Assessment",
     page_icon="🩺",
-    layout="wide"
+    layout="centered"
 )
 
 # Inject Custom CSS
