@@ -28,7 +28,7 @@ def inject_custom_css():
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            color: white;
+            color: red;
         }
 
         /* Custom heading colors */
@@ -119,15 +119,6 @@ def risk_analysis_page():
     # Display risk
     risk_color = "green" if risk_score < 33 else "yellow" if risk_score < 66 else "red"
     st.write(f"Your stroke risk is {risk_score:.1f}%.")
-    st.markdown(
-    """
-    <style>
-        .stProgress > div > div > div > div {
-            background-color: risk_color;
-        }
-    </style>""",
-    unsafe_allow_html=True,
-)
     st.progress(risk_score / 100)
 
     # Contributing factors
