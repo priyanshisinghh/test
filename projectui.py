@@ -24,12 +24,11 @@ def inject_custom_css():
 
         /* Welcome page background */
         .welcome-page {
-            background-image: url('https://i.imgur.com/4NJlZw6.jpg'); /* Replace with a valid direct image URL */
+            background-image: url('https://i.imgur.com/4NJlZw6.jpg'); /* Replace with your image URL */
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            padding: 20px;
-            border-radius: 15px;
+            color: #4CAF50;
         }
 
         /* Custom heading colors */
@@ -119,13 +118,13 @@ def risk_analysis_page():
     risk_score = min(max(risk_score, 0), 100)  # Ensure risk_score is between 0-100
 
     # Display risk
-    risk_color = "green" if risk_score < 33 else "yellow" if risk_score < 66 else "red"
+    risk_color = "#11ff00" if risk_score < 33 else "#ffff00" if risk_score < 66 else "#ff0000"
     st.write(f"Your stroke risk is {risk_score:.1f}%.")
     st.markdown(
     """
     <style>
         .stProgress > div > div > div > div {
-            background-image: {risk_color};
+            background-color: {risk_color};
         }
     </style>""",
     unsafe_allow_html=True,
