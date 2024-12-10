@@ -122,7 +122,9 @@ def risk_analysis_page():
     
     # Preprocess user input
     user_data = user_data.reindex(columns=['age', 'avg_glucose_level', 'bmi', 'gender', 'hypertension', 'heart_disease', 'work_type', 'Residence_type', 'smoking_status'])
-    user_data = user_data.fillna(0)  # Fill NaN values with 0 or other suitable default
+    user_data = user_data.fillna(0)  # Fill NaN values with 0 or other suitable
+    required_columns = ['age', 'avg_glucose_level', 'bmi', 'gender', 'hypertension', 'heart_disease', 'work_type', 'Residence_type', 'smoking_status']
+    user_data = user_data[required_columns]  # Remove any extraneous columns
 
     # Debugging: Log the state of user_data
     st.write("User data before preprocessing:", user_data)
