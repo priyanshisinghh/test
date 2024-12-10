@@ -117,9 +117,9 @@ def risk_analysis_page():
     risk_score = min(max(risk_score, 0), 100)  # Ensure risk_score is between 0-100
 
     # Display risk
-    st.write(f"Your stroke risk is {risk_score:.1f}%.")
     risk_color = "green" if risk_score < 33 else "yellow" if risk_score < 66 else "red"
-    st.progress(risk_score, color=risk_color)
+    st.write(f"Your stroke risk is {risk_score:.1f}%.")
+    st.progress(risk_score / 100)
 
     # Contributing factors
     st.subheader("Top Contributing Factors")
@@ -178,9 +178,11 @@ def recommendation_page():
 
 # Main Application Logic
 def main():
+    inject_custom_css()
     if "page" not in st.session_state:
         st.session_state.page = "welcome"
-    
+    if "health_data" not in st.session_state:
+        st.session_state.health_data = {}
     if st.session_state.page == "welcome":
         welcome_page()
     elif st.session_state.page == "input_form":
