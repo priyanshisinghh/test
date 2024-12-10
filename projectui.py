@@ -24,11 +24,12 @@ def inject_custom_css():
 
         /* Welcome page background */
         .welcome-page {
-            background-image: url('https://imgur.com/a/dTlqCP1'); /* Replace with your image URL */
+            background-image: url('https://i.imgur.com/4NJlZw6.jpg'); /* Replace with a valid direct image URL */
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            color: red;
+            padding: 20px;
+            border-radius: 15px;
         }
 
         /* Custom heading colors */
@@ -53,6 +54,7 @@ def inject_custom_css():
         """,
         unsafe_allow_html=True
     )
+
 
 # welcome page
 def welcome_page():
@@ -123,7 +125,7 @@ def risk_analysis_page():
     """
     <style>
         .stProgress > div > div > div > div {
-            background-image: linear-gradient(to right, #11ff00, #ff0000);
+            background-image: {risk_color};
         }
     </style>""",
     unsafe_allow_html=True,
