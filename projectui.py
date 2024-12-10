@@ -22,15 +22,6 @@ def inject_custom_css():
             padding: 0;
         }
 
-        /* Welcome page background */
-        .welcome-page {
-            background-image: url('https://i.imgur.com/4NJlZw6.jpg'); /* Replace with your image URL */
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            color: #4CAF50;
-        }
-
         /* Custom heading colors */
         h1, h2, h3 {
             color: #4CAF50; /* Green color for headings */
@@ -57,7 +48,6 @@ def inject_custom_css():
 
 # welcome page
 def welcome_page():
-    st.markdown('<div class="welcome-page">', unsafe_allow_html=True)
     st.title(":blue[Stroke Risk Assessment and Personalized Health Plan]")
     st.write("""
     Understanding your stroke risk is vital to taking control of your health. 
@@ -121,14 +111,14 @@ def risk_analysis_page():
     risk_color = "#11ff00" if risk_score < 33 else "#ffff00" if risk_score < 66 else "#ff0000"
     st.write(f"Your stroke risk is {risk_score:.1f}%.")
     st.markdown(
-    """
+    f"""
     <style>
-        .stProgress > div > div > div > div {
+        .stProgress > div > div > div > div {{
             background-color: {risk_color};
-        }
+        }}
     </style>""",
     unsafe_allow_html=True,
-)
+    )
     st.progress(0.9)
 
     # Contributing factors
