@@ -78,8 +78,8 @@ def input_form_page():
     heart_disease_option = st.selectbox("History of Heart Disease", ["No", "Yes"])
     heart_disease = 0 if heart_disease_option == "No" else 1
     
-    Residence_type_option = st.selectbox("Residence Type", ["Urban", "Rural"])
-    Residence_type = 0 if Residence_type_option == "Urban" else 1
+    residence_type_option = st.selectbox("Residence Type", ["Urban", "Rural"])
+    residence_type = 0 if residence_type_option == "Urban" else 1
     
     work_type_option = st.selectbox("Work Type", ["Child", "Never worked", "Self-Employed", "Private", "Government employed"])
     work_type = {
@@ -107,7 +107,7 @@ def input_form_page():
         'hypertension': [hypertension],
         'heart_disease': [heart_disease],
         'work_type': [work_type],
-        'Residence_type': [Residence_type],
+        'Residence_type': [residence_type],
         'smoking_status': [smoking_status]
     })
 
@@ -124,10 +124,20 @@ def risk_analysis_page():
     user_data = user_data.reindex(columns=['age', 'avg_glucose_level', 'bmi', 'gender', 'hypertension', 'heart_disease', 'work_type', 'Residence_type', 'smoking_status'])
     user_data = user_data.fillna(0)  # Fill NaN values with 0 or other suitable default
 
-    required_columns = ['age', 'avg_glucose_level', 'bmi', 'gender', 'hypertension', 'heart_disease', 'work_type', 'Residence_type', 'smoking_status']
-    user_data = user_data[required_columns]  # Remove any extraneous columns
+    # Debugging: Log the state of user_data
+    st.write("User data before preprocessing:", user_data)
+
+    # Preprocess user input
+    try:
+        user_transformed = preprocessor.transform(user_data)
+    except Exception as e:
+        st.error(f"Error during transformation: {e}")
+        return
     
-    user_transformed = preprocessor.transform(user_data)
+    # Debugging: Log the transformed data
+    st.write("Transformed user data:", user_transformed)
+
+    #    user_transformed = preprocessor.transform(user_data)
     user_transformed_df = pd.DataFrame(user_transformed.toarray() if hasattr(user_transformed, 'toarray') else user_transformed)
     
     # Predict stroke risk
