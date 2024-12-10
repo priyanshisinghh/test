@@ -108,14 +108,23 @@ def risk_analysis_page():
     # Fetch the saved data
     data = st.session_state.get("health_data", {})
 
-    # Dummy calculation for stroke risk (replace with actual model)
+   # Dummy calculation for stroke risk (replace with actual model)
     risk_score = (data["BMI"] + data["Average Glucose Level"]) * 0.1
-    risk_score = min(max(risk_score, 0), 100)  # Ensure risk_score is between 0-100
+    risk_score = 90 #min(max(risk_score, 0), 100)  # Ensure risk_score is between 0-100
 
     # Display risk
-    risk_color = "green" if risk_score < 33 else "yellow" if risk_score < 66 else "red"
+    risk_color = "#11ff00" if risk_score < 33 else "#ffff00" if risk_score < 66 else "#ff0000"
     st.write(f"Your stroke risk is {risk_score:.1f}%.")
-    st.progress(risk_score / 100)
+    st.markdown(
+    f"""
+    <style>
+        .stProgress > div > div > div > div {{
+            background-color: {risk_color};
+        }}
+    </style>""",
+    unsafe_allow_html=True,
+    )
+    st.progress(0.9)
 
     # Contributing factors
     st.subheader("Top Contributing Factors")
