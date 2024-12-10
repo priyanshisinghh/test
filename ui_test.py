@@ -3,6 +3,7 @@ import pandas as pd
 import joblib
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
+import numpy as np
 
 # Set page config
 st.set_page_config(
@@ -64,22 +65,49 @@ def input_form_page():
     st.write("Please fill out the form below with your health details.")
     
     # Collect user inputs
-    age = st.number_input("Age", min_value=0, max_value=120, value=30)
-    avg_glucose = st.number_input("Average Glucose Level (mg/dL)", min_value=50.0, max_value=300.0, value=100.0)
-    bmi = st.number_input("BMI", min_value=10.0, max_value=50.0, value=25.0)
-    gender = st.radio("Gender", ["Male", "Female"])
-    work_type = st.selectbox("Work Type", ["Child", "Never worked", "Self-Employed", "Private", "Government employed"])
-    residence_type = st.selectbox("Residence Type", ["Urban", "Rural"])
-    smoking_status = st.selectbox("Smoking Status", ["Never Smoked", "Formerly Smoked", "Smokes", "Unknown"])
+    gender_option = st.radio("Gender", ["Male", "Female"])
+    gender = 0 if gender_option == "Male" else 1
+
+    age = st.number_input("Age", min_value=0, max_value=120, value=20, step=1)
+    bmi = st.number_input("Body Mass Index (BMI)", min_value=0.0, max_value=100.0, value=25.0, step=0.1)
+    avg_glucose = st.number_input("Average Glucose Level (mg/dL)", min_value=0.0, max_value=500.0, value=100.0, step=0.1)
+
+    hypertension_option = st.selectbox("History of Hypertension (High Blood Pressure)", ["No", "Yes"])
+    hypertension = 0 if hypertension_option == "No" else 1
+
+    heart_disease_option = st.selectbox("History of Heart Disease", ["No", "Yes"])
+    heart_disease = 0 if heart_disease_option == "No" else 1
     
+    Residence_type_option = st.selectbox("Residence Type", ["Urban", "Rural"])
+    Residence_type = 0 if Residence_type_option == "Urban" else 1
+    
+    work_type_option = st.selectbox("Work Type", ["Child", "Never worked", "Self-Employed", "Private", "Government employed"])
+    work_type = {
+        "Child": 0,
+        "Never worked": 1,
+        "Self-Employed": 2,
+        "Private": 3,
+        "Government employed": 4
+    }[work_type_option]
+
+    smoking_status_option = st.selectbox("Smoking Status", ["Never smoked", "Formerly smoked", "Smokes", "Unknown"])
+    smoking_status = {
+        "Never smoked": 0,
+        "Formerly smoked": 1,
+        "Smokes": 2,
+        "Unknown": 3
+    }[smoking_status_option]
+
     # Save inputs
     user_data = pd.DataFrame({
         'age': [age],
         'avg_glucose_level': [avg_glucose],
         'bmi': [bmi],
         'gender': [gender],
+        'hypertension': [hypertension],
+        'heart_disease': [heart_disease],
         'work_type': [work_type],
-        'Residence_type': [residence_type],
+        'Residence_type': [Residence_type],
         'smoking_status': [smoking_status]
     })
 
