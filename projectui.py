@@ -1,8 +1,24 @@
 import streamlit as st
 import pandas as pd
 
+def set_welcome_background():
+    st.markdown(
+        """
+        <style>
+        body {
+            background-image: url('https://www.google.com/imgres?q=white%20color%20image&imgurl=https%3A%2F%2Fimg.freepik.com%2Ffree-photo%2Fwhite-blank-background-texture-design-element_53876-132773.jpg%3Fsemt%3Dais_hybrid&imgrefurl=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fwhite-color&docid=NCgrDC1_33DsKM&tbnid=iOtdyQ-U8SsqnM&vet=12ahUKEwjOqJ2XlZyKAxXRCTQIHVaKOYYQM3oECDcQAA..i&w=626&h=417&hcb=2&ved=2ahUKEwjOqJ2XlZyKAxXRCTQIHVaKOYYQM3oECDcQAA'); /* Replace with your image URL */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
 # welcome page
 def welcome_page():
+    set_welcome_background
     st.title(":blue[Stroke Risk Assessment and Personalized Health Plan]")
     st.write("""
     Understanding your stroke risk is vital to taking control of your health. 
@@ -21,7 +37,7 @@ def input_form_page():
     
     age = st.number_input("Age", min_value=0, max_value=120, value=20, step=1)
     bmi = st.number_input("Body Mass Index (BMI)", min_value=0.0, max_value=100.0, value=25.0, step=0.1)
-    avg_glucose_level = st.number_input("Average Glucose Level (mg/dL)", min_value=0.0, max_value=500.0, value=100.0, step=0.1)
+    avg_glucose = st.number_input("Average Glucose Level (mg/dL)", min_value=0.0, max_value=500.0, value=100.0, step=0.1)
     
     hypertension_option = st.selectbox("Hypertension (High Blood Pressure)", ["No", "Yes"])
     hypertension = 0 if hypertension_option == "No" else 1
