@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import joblib
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
 import numpy as np
 
 # Set page config
@@ -14,10 +16,11 @@ st.set_page_config(
 @st.cache_resource
 def load_model_and_preprocessors():
     model = joblib.load('model.pkl')  # Load your trained model
-    preprocessor = joblib.load('preprocessor.pkl')  # Load the preprocessor
-    return model, preprocessor
+    scaler = joblib.load('scaler.pkl')  # Load the scaler (if saved separately)
+    preprocessor = joblib.load('preprocessor.pkl')  # Load the preprocessor (if saved separately)
+    return model, scaler, preprocessor
 
-model, preprocessor = load_model_and_preprocessors()
+model, scaler, preprocessor = load_model_and_preprocessors()
 
 # Inject Custom CSS
 def inject_custom_css():
@@ -117,13 +120,25 @@ def risk_analysis_page():
     st.title("Stroke Risk Analysis")
     user_data = st.session_state.user_data
     
-    # Ensure column alignment and handle missing data
-    user_data = user_data.reindex(columns=['age', 'avg_glucose_level', 'bmi', 'gender', 'hypertension', 'heart_disease', 'work_type', 'Residence_type', 'smoking_status'])
-    user_data = user_data.fillna(0)
-    
     # Preprocess user input
-    user_transformed = preprocessor.transform(user_data)
-    user_transformed_df = pd.DataFrame(user_transformed, columns=preprocessor.get_feature_names_out())
+    user_data = user_data.reindex(columns=['age', 'avg_glucose_level', 'bmi', 'gender', 'hypertension', 'heart_disease', 'work_type', 'Residence_type', 'smoking_status'])
+    user_data = user_data.fillna(0)  # Fill NaN values with 0 or other suitable default
+
+    # Debugging: Log the state of user_data
+    st.write("User data before preprocessing:", user_data)
+
+    # Preprocess user input
+    try:
+        user_transformed = preprocessor.transform(user_data)
+    except Exception as e:
+        st.error(f"Error during transformation: {e}")
+        return
+    
+    # Debugging: Log the transformed data
+    st.write("Transformed user data:", user_transformed)
+
+    #    user_transformed = preprocessor.transform(user_data)
+    user_transformed_df = pd.DataFrame(user_transformed.toarray() if hasattr(user_transformed, 'toarray') else user_transformed)
     
     # Predict stroke risk
     prediction_proba = model.predict_proba(user_transformed_df)[:, 1]
