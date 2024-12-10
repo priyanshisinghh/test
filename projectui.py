@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import joblib
+
 
 # Set page config
 st.set_page_config(
@@ -21,12 +21,18 @@ def inject_custom_css():
             margin: 0;
             padding: 0;
         }
-
+        /* Welcome page background */
+        .welcome-page {
+            background-image: url('https://imgur.com/a/dTlqCP1'); /* Replace with your image URL */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: red;
+        }
         /* Custom heading colors */
         h1, h2, h3 {
             color: #4CAF50; /* Green color for headings */
         }
-
         /* Custom button styling */
         .stButton > button {
             font-size: 18px;
@@ -36,7 +42,6 @@ def inject_custom_css():
             border-radius: 8px;
             padding: 10px 20px;
         }
-
         .stButton > button:hover {
             background-color: #0056b3;
         }
@@ -45,9 +50,9 @@ def inject_custom_css():
         unsafe_allow_html=True
     )
 
-
 # welcome page
 def welcome_page():
+    st.markdown('<div class="welcome-page">', unsafe_allow_html=True)
     st.title(":blue[Stroke Risk Assessment and Personalized Health Plan]")
     st.write("""
     Understanding your stroke risk is vital to taking control of your health. 
@@ -60,20 +65,20 @@ def welcome_page():
 def input_form_page():
     st.title("Health Data Input Form")
     st.write("Please fill out the form below with your health details.")
-    
+
     gender_option = st.radio("Gender", ["Male", "Female"])
     gender = 0 if gender_option == "Male" else 1
-    
+
     age = st.number_input("Age", min_value=0, max_value=120, value=20, step=1)
     bmi = st.number_input("Body Mass Index (BMI)", min_value=0.0, max_value=100.0, value=25.0, step=0.1)
     avg_glucose = st.number_input("Average Glucose Level (mg/dL)", min_value=0.0, max_value=500.0, value=100.0, step=0.1)
-    
+
     hypertension_option = st.selectbox("Hypertension (High Blood Pressure)", ["No", "Yes"])
     hypertension = 0 if hypertension_option == "No" else 1
-    
+
     heart_disease_option = st.selectbox("Heart Disease", ["No", "Yes"])
     heart_disease = 0 if heart_disease_option == "No" else 1
-    
+
     smoking_status_option = st.selectbox("Smoking Status", ["Never smoked", "Formerly smoked", "Smokes", "Unknown"])
     smoking_status = {
         "Never smoked": 0,
@@ -102,24 +107,15 @@ def risk_analysis_page():
 
     # Fetch the saved data
     data = st.session_state.get("health_data", {})
-    
+
     # Dummy calculation for stroke risk (replace with actual model)
     risk_score = (data["BMI"] + data["Average Glucose Level"]) * 0.1
-    risk_score = 90 #min(max(risk_score, 0), 100)  # Ensure risk_score is between 0-100
+    risk_score = min(max(risk_score, 0), 100)  # Ensure risk_score is between 0-100
 
     # Display risk
-    risk_color = "#11ff00" if risk_score < 33 else "#ffff00" if risk_score < 66 else "#ff0000"
+    risk_color = "green" if risk_score < 33 else "yellow" if risk_score < 66 else "red"
     st.write(f"Your stroke risk is {risk_score:.1f}%.")
-    st.markdown(
-    f"""
-    <style>
-        .stProgress > div > div > div > div {{
-            background-color: {risk_color};
-        }}
-    </style>""",
-    unsafe_allow_html=True,
-    )
-    st.progress(0.9)
+    st.progress(risk_score / 100)
 
     # Contributing factors
     st.subheader("Top Contributing Factors")
@@ -155,7 +151,7 @@ def recommendation_page():
         st.write("Incorporate 30 minutes of moderate exercise, 5 days a week.")
     if data["Average Glucose Level"] > 140:
         st.write("Reduce sugar intake and monitor glucose levels weekly.")
-    
+
     st.subheader("Medical Advice")
     if data["Hypertension"] == "Yes":
         st.write("Consider consulting a doctor to manage hypertension.")
@@ -164,7 +160,7 @@ def recommendation_page():
 
     st.subheader("Dietary Changes")
     st.write("Adopt a low-sodium, high-fiber diet. Include fruits, vegetables, and whole grains.")
-    
+
     # Visualization (Example pie chart)
     st.subheader("Diet Breakdown")
     diet_data = pd.DataFrame({
