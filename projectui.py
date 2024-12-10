@@ -123,7 +123,7 @@ def risk_analysis_page():
     """
     <style>
         .stProgress > div > div > div > div {
-            background-image: linear-gradient(to right, #00ccff, #99ff99);
+            background-image: linear-gradient(to left, #11ff00, #ff0000);
         }
     </style>""",
     unsafe_allow_html=True,
