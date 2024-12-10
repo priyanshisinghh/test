@@ -24,7 +24,7 @@ def inject_custom_css():
 
         /* Welcome page background */
         .welcome-page {
-            background-image: url('file://{laboratory-equipment.jpeg}'); /* Replace with your image URL */
+            background-image: url('https://imgur.com/a/dTlqCP1'); /* Replace with your image URL */
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
