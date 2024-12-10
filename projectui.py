@@ -1,10 +1,6 @@
 import streamlit as st
 import pandas as pd
 import joblib
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.compose import ColumnTransformer
-
-model = joblib.load('model.pkl')
 
 # Set page config
 st.set_page_config(
