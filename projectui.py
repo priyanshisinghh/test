@@ -22,19 +22,35 @@ def input_form_page():
     age = st.number_input("Age", min_value=0, max_value=120, value=20, step=1)
     bmi = st.number_input("Body Mass Index (BMI)", min_value=0.0, max_value=100.0, value=25.0, step=0.1)
     avg_glucose_level = st.number_input("Average Glucose Level (mg/dL)", min_value=0.0, max_value=500.0, value=100.0, step=0.1)
+    
     hypertension_option = st.selectbox("Hypertension (High Blood Pressure)", ["No", "Yes"])
     hypertension = 0 if hypertension_option == "No" else 1
+    
     heart_disease_option = st.selectbox("Heart Disease", ["No", "Yes"])
     heart_disease = 0 if heart_disease_option == "No" else 1
+    
     smoking_status_option = st.selectbox("Smoking Status", ["Never smoked", "Formerly smoked", "Smokes", "Unknown"])
     smoking_status = {
         "Never smoked": 0,
         "Formerly smoked": 1,
-        "Smokes": 2
+        "Smokes": 2,
+        "Unknown": 3
     }[smoking_status_option]
 
+    if st.button("Submit"):
+        # Save the data to session state for next page
+        st.session_state.health_data = {
+            "Age": age,
+            "BMI": bmi,
+            "Average Glucose Level": avg_glucose,
+            "Hypertension": hypertension,
+            "Heart Disease": heart_disease,
+            "Smoking Status": smoking_status
+        }
+        st.session_state.page = "risk_analysis"
 
-# Risk Analysis Result Page
+
+# risk analysis page
 def risk_analysis_page():
     st.title("Stroke Risk Analysis")
     st.write("Based on your input, here is your stroke risk assessment.")
