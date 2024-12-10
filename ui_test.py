@@ -14,7 +14,7 @@ st.set_page_config(
 # Load the trained model and preprocessing tools
 @st.cache_resource
 def load_model_and_preprocessors():
-    model = joblib.load('stroke_model.pkl')  # Load your trained model
+    model = joblib.load('model.pkl')  # Load your trained model
     scaler = joblib.load('scaler.pkl')  # Load the scaler (if saved separately)
     preprocessor = joblib.load('preprocessor.pkl')  # Load the preprocessor (if saved separately)
     return model, scaler, preprocessor
