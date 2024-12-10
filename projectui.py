@@ -128,7 +128,7 @@ def risk_analysis_page():
     </style>""",
     unsafe_allow_html=True,
 )
-    st.progress(risk_score / 100)
+    st.progress(0.9)
 
     # Contributing factors
     st.subheader("Top Contributing Factors")
