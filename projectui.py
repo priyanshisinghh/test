@@ -1,6 +1,10 @@
 import streamlit as st
 import pandas as pd
+import joblib
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
 
+model = joblib.load('model.pkl')
 
 # Set page config
 st.set_page_config(
@@ -105,7 +109,7 @@ def risk_analysis_page():
     
     # Dummy calculation for stroke risk (replace with actual model)
     risk_score = (data["BMI"] + data["Average Glucose Level"]) * 0.1
-    risk_score = min(max(risk_score, 0), 100)  # Ensure risk_score is between 0-100
+    risk_score = 90 #min(max(risk_score, 0), 100)  # Ensure risk_score is between 0-100
 
     # Display risk
     risk_color = "#11ff00" if risk_score < 33 else "#ffff00" if risk_score < 66 else "#ff0000"
